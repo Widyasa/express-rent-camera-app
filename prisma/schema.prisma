@@ -30,6 +30,8 @@ model Users {
   Admins     Admins[]
   Staffs     Staffs[]
   Customers  Customers[]
+
+  Transaction Transaction[]
 }
 
 model Admins {
@@ -46,7 +48,7 @@ model Staffs {
   name         String
   address      String
   phone_number String
-  image        String
+  image        String?
   user_id      String
   user         Users    @relation(fields: [user_id], references: [id])
   created_at   DateTime @default(now())
@@ -61,4 +63,105 @@ model Customers {
   user         Users    @relation(fields: [user_id], references: [id])
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
+
+  Transaction Transaction[]
+}
+
+enum ProductStatus {
+  available
+  rent
+  unavailable
+}
+
+model Product {
+  id         String        @id @default(cuid())
+  name       String
+  price      Float
+  code       String
+  status     ProductStatus @default(available)
+  categoryId String
+  brandId    String
+  typeId     String
+  image      String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+
+  category         ProductCategory   @relation(fields: [categoryId], references: [id])
+  brand            ProductBrand      @relation(fields: [brandId], references: [id])
+  type             ProductType       @relation(fields: [typeId], references: [id])
+  TransactionItems TransactionItem[]
+
+  @@map("products")
+}
+
+model ProductCategory {
+  id       String    @id @default(cuid())
+  name     String
+  products Product[]
+
+  @@map("product_categories")
+}
+
+model ProductBrand {
+  id       String    @id @default(cuid())
+  name     String
+  products Product[]
+
+  @@map("product_brands")
+}
+
+model ProductType {
+  id       String    @id @default(cuid())
+  name     String
+  products Product[]
+
+  @@map("product_types")
+}
+
+enum TransactionStatus {
+  on_going
+  canceled
+  finished
+  pending
+}
+
+enum PaymentStatus {
+  half
+  full
+}
+
+model Transaction {
+  id            String        @id @default(cuid())
+  start_date    String
+  end_date      String
+  customer_id   String
+  status        PaymentStatus @default(half)
+  payment_proof String?
+  totalAmount   Float
+  payAmount     Float
+  user_id       String
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+
+  items TransactionItem[]
+
+  customer Customers @relation(fields: [customer_id], references: [id])
+  user     Users     @relation(fields: [user_id], references: [id])
+
+  @@map("transactions")
+}
+
+model TransactionItem {
+  id            String   @id @default(cuid())
+  transactionId String
+  productId     String
+  quantity      Int
+  price         Float
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  transaction Transaction @relation(fields: [transactionId], references: [id])
+  product     Product     @relation(fields: [productId], references: [id])
+
+  @@map("transaction_items")
 }
