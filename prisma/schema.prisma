@@ -60,6 +60,7 @@ model Customers {
   name         String
   phone_number String
   user_id      String
+  address      String
   user         Users    @relation(fields: [user_id], references: [id])
   created_at   DateTime @default(now())
   updated_at   DateTime @updatedAt
