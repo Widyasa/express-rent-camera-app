@@ -30,7 +30,7 @@ export const storeProductCategory = async (req: any, res: any) => {
         const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
         if (errors.isEmpty()) {
             const request = req.body
-            const productCategory = await createProductCategory(res, request)
+            const productCategory = await createProductCategory(request)
             return sendResponse(res, true, productCategory, "create product category success", 201)
         }
         return sendResponse(res, false, errors.array(), 'failed to create product category', 422);
@@ -43,7 +43,7 @@ export const storeProductCategory = async (req: any, res: any) => {
 export const updateProductCategory = async (req: any, res: any) => {
     try {
         const request = req.body
-        const productCategory = editProductCategory(res, req.params.id, request)
+        const productCategory = await editProductCategory(req.params.id, request)
         return sendResponse(res, true, productCategory, "update product category success", 200)
     } catch (error) {
         return sendResponse(res, false, error, "create product category failed", 500)
@@ -52,7 +52,7 @@ export const updateProductCategory = async (req: any, res: any) => {
 
 export const destroyProductCategory = async (req:any, res:any) => {
     try {
-        const productCategory = deleteProductCategory(req.params.id)
+        const productCategory = await deleteProductCategory(req.params.id)
         return sendResponse(res, true, productCategory, "delete product category success", 200)
     } catch (error) {
         return sendResponse(res, false, error, 'delete product category failed', 500)

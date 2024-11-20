@@ -1,11 +1,9 @@
 import {prisma} from "../utils/prisma";
-import {NextFunction} from "express";
 import {sendResponse} from "../utils/sendResponse";
 import argon2 from "argon2";
 import jwt from 'jsonwebtoken'
 import dotenv from "dotenv";
 import {Register} from "../types/register";
-import {validationResult} from "express-validator";
 dotenv.config()
 const findUserCredentials = async (email: string) => {
     const findUser = await prisma.users.findUnique({where: {email}});

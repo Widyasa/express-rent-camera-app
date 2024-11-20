@@ -1,5 +1,6 @@
 import express from "express";
 import {
+    destroyProductCategory,
     getAllProductCategory,
     getProductCategoryById,
     storeProductCategory, updateProductCategory
@@ -11,3 +12,4 @@ ProductCategoryRoute.get('/', getAllProductCategory)
 ProductCategoryRoute.get('/:id', getProductCategoryById)
 ProductCategoryRoute.post('/', productCategoryRequest, storeProductCategory)
 ProductCategoryRoute.patch('/:id', productCategoryRequest, updateProductCategory)
+ProductCategoryRoute.delete('/:id', destroyProductCategory)

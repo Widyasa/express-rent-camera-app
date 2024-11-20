@@ -59,7 +59,6 @@ export const editProductCategory = async (id:string, request:ProductCategory) =>
         console.log(error)
         return error
     }
-
 }
 
 export const deleteProductCategory  = async (id:string) => {
@@ -69,5 +68,4 @@ export const deleteProductCategory  = async (id:string) => {
         console.log(error)
         return error
     }
-
 }
