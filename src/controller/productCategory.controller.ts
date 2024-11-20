@@ -42,9 +42,13 @@ export const storeProductCategory = async (req: any, res: any) => {
 
 export const updateProductCategory = async (req: any, res: any) => {
     try {
-        const request = req.body
-        const productCategory = await editProductCategory(req.params.id, request)
-        return sendResponse(res, true, productCategory, "update product category success", 200)
+        const errors = validationResult(req); // Finds the validation errors in this request and wraps them in an object with handy functions
+        if (errors.isEmpty()) {
+            const request = req.body
+            const productCategory = await editProductCategory(req.params.id, request)
+            return sendResponse(res, true, productCategory, "update product category success", 200)
+        }
+        return sendResponse(res, false, errors.array(), 'failed to create product category', 422);
     } catch (error) {
         return sendResponse(res, false, error, "create product category failed", 500)
     }
