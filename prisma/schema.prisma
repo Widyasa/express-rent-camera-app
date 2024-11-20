@@ -82,41 +82,36 @@ model Product {
   status     ProductStatus @default(available)
   categoryId String
   brandId    String
-  typeId     String
   image      String?
   createdAt  DateTime      @default(now())
   updatedAt  DateTime      @updatedAt
 
   category         ProductCategory   @relation(fields: [categoryId], references: [id])
   brand            ProductBrand      @relation(fields: [brandId], references: [id])
-  type             ProductType       @relation(fields: [typeId], references: [id])
   TransactionItems TransactionItem[]
 
   @@map("products")
 }
 
 model ProductCategory {
-  id       String    @id @default(cuid())
-  name     String
+  id         String   @id @default(cuid())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
   products Product[]
 
   @@map("product_categories")
 }
 
 model ProductBrand {
-  id       String    @id @default(cuid())
-  name     String
-  products Product[]
+  id         String    @id @default(cuid())
+  name       String
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  products   Product[]
 
   @@map("product_brands")
-}
-
-model ProductType {
-  id       String    @id @default(cuid())
-  name     String
-  products Product[]
-
-  @@map("product_types")
 }
 
 enum TransactionStatus {

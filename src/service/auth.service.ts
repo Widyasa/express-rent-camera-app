@@ -47,20 +47,16 @@ export const loginService = async (res:any, email: string, password: string) => 
 
 export const registerService = async (res:any, request:Register) => {
     const hashedPassword = await argon2.hash(request.password)
+    const findUser = await prisma.users.findUnique({
+        where: {
+            email: request.email,
+            username: request.username
+        }
+    })
+    if (findUser) {
+        return sendResponse(res, false, null, 'User does exist, change your email and username', 403)
+    }
     try {
-        const errors = validationResult(request); // Finds the validation errors in this request and wraps them in an object with handy functions
-        if (!errors.isEmpty()) {
-            return sendResponse(res, false, errors.array(), 'failed to create user', 422);
-        }
-        const findUser = await prisma.users.findUnique({
-            where: {
-                email: request.email,
-                username: request.username
-            }
-        })
-        if (findUser) {
-            return sendResponse(res, false, null, 'User does exist, change your email and username', 403)
-        }
         const resUser = await prisma.users.create({
             data: {
                 username: request.username,
@@ -82,10 +78,9 @@ export const registerService = async (res:any, request:Register) => {
             resUser
         }
         return sendResponse(res, true, returnValue, 'Register success', 201)
-
     } catch (e) {
         console.log(e)
-        return sendResponse(res, false, null, "Register Failed", 500)
+        return sendResponse(res, false, e, "Register Failed", 500)
     }
 
 }
