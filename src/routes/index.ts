@@ -8,7 +8,8 @@ import {sendResponse} from "../utils/sendResponse";
 
 export const router = express.Router()
 router.use('/auth', authRoute)
-router.post('/upload', uploadFile.single("image"), (req, res) => {
+router.post('/upload', uploadFile('1732268590700','public/upload').single("image"), (req, res) => {
+
     if (!req.file) {
         return sendResponse(res, false, null, "upload failed", 400)
     } else {
