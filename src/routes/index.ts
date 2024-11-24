@@ -6,9 +6,11 @@ import {ProductBrandRoute} from "./productBrand.route";
 import {uploadFile} from "../utils/uploadFile";
 import {sendResponse} from "../utils/sendResponse";
 import {ProductRoute} from "./product.route";
+import {adminMiddleware} from "../middleware/admin.middleware";
 
 export const router = express.Router()
 router.use('/auth', authRoute)
+router.get('/tes', authMiddleware, adminMiddleware)
 // router.post('/upload', (req, res) => {
 //     uploadFile('1732268590700','public/upload').single("image")
 //     if (!req.file) {
