@@ -6,10 +6,11 @@ import {
     storeProductBrand, updateProductBrand
 } from "../controller/productBrand.controller";
 import {productBrandRequest} from "../request/productBrand.request";
+import {authMiddleware} from "../middleware/auth";
 
 export const ProductBrandRoute = express.Router();
 ProductBrandRoute.get('/', getAllProductBrand)
 ProductBrandRoute.get('/:id', getProductBrandById)
-ProductBrandRoute.post('/', productBrandRequest, storeProductBrand)
-ProductBrandRoute.patch('/:id', productBrandRequest, updateProductBrand)
-ProductBrandRoute.delete('/:id', destroyProductBrand)
+ProductBrandRoute.post('/', authMiddleware, productBrandRequest, storeProductBrand)
+ProductBrandRoute.patch('/:id', authMiddleware, productBrandRequest, updateProductBrand)
+ProductBrandRoute.delete('/:id', authMiddleware, destroyProductBrand)

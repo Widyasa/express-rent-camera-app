@@ -75,19 +75,19 @@ enum ProductStatus {
 }
 
 model Product {
-  id         String        @id @default(cuid())
-  name       String
-  price      Float
-  code       String
-  status     ProductStatus @default(available)
-  categoryId String
-  brandId    String
-  image      String?
-  createdAt  DateTime      @default(now())
-  updatedAt  DateTime      @updatedAt
+  id          String        @id @default(cuid())
+  name        String
+  price       Float
+  code        String
+  status      ProductStatus @default(available)
+  category_id String
+  brand_id    String
+  image       String?
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  category         ProductCategory   @relation(fields: [categoryId], references: [id])
-  brand            ProductBrand      @relation(fields: [brandId], references: [id])
+  category         ProductCategory   @relation(fields: [category_id], references: [id])
+  brand            ProductBrand      @relation(fields: [brand_id], references: [id])
   TransactionItems TransactionItem[]
 
   @@map("products")
@@ -148,16 +148,16 @@ model Transaction {
 }
 
 model TransactionItem {
-  id            String   @id @default(cuid())
-  transactionId String
-  productId     String
-  quantity      Int
-  price         Float
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id             String   @id @default(cuid())
+  transaction_id String
+  product_id     String
+  quantity       Int
+  price          Float
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  transaction Transaction @relation(fields: [transactionId], references: [id])
-  product     Product     @relation(fields: [productId], references: [id])
+  transaction Transaction @relation(fields: [transaction_id], references: [id])
+  product     Product     @relation(fields: [product_id], references: [id])
 
   @@map("transaction_items")
 }
