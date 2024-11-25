@@ -6,7 +6,6 @@ import {
 } from "../service/product.service";
 import {sendResponse} from "../utils/sendResponse";
 import {validationResult} from "express-validator";
-import {uploadFile} from "../utils/uploadFile";
 
 export const getAllProduct = async (req: any, res: any) => {
     try {
