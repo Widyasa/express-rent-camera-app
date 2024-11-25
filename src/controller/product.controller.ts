@@ -69,7 +69,7 @@ export const storeImage = async (req: any, res: any) => {
         if (!req.file) {
             return sendResponse(res, false, null, "upload failed", 400)
         }
-        const product = await uploadImage(req.params.id, req, res)
+        const product = await uploadImage(req.params.id, req)
             return sendResponse(res, true, product, "upload image success", 200)
     } catch (error) {
         return sendResponse(res, false, error, "create product  failed", 500)
