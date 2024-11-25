@@ -16,7 +16,6 @@ ProductRoute.get('/:id', getProductById)
 ProductRoute.post('/', authMiddleware, productRequest, storeProduct)
 ProductRoute.patch('/:id', authMiddleware, productRequest, updateProduct)
 ProductRoute.delete('/:id', authMiddleware, destroyProduct)
-// ProductRoute.post('/upload/:id',uploadFile(req.params.id, 'public/upload/product').single("image"), storeImage)
 ProductRoute.post('/upload/:id', authMiddleware, (req, res, next) => {
     const id = req.params.id;
     return uploadFile(id, 'public/upload/product').single('image')(req, res, next);

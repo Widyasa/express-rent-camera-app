@@ -12,7 +12,14 @@ export const findProduct = async (request:RequestGetAll) => {
             prisma.product,
             {
                 where: {
-                    name: request.search
+                    name: request.search,
+                    code: request.search,
+                    price: request.search,
+                    status: request.search
+                },
+                include : {
+                    brand: true,
+                    category: true
                 }
             },
             {
@@ -27,7 +34,13 @@ export const findProduct = async (request:RequestGetAll) => {
 
 export const findProductById = async (id:string) => {
     try {
-        return await prisma.product.findFirst({where: {id}})
+        return await prisma.product.findFirst({
+            where: {id},
+            include: {
+                brand: true,
+                category: true
+            }
+        })
     } catch(error) {
         console.log(error)
         return error
