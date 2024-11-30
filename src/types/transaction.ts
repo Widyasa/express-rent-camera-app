@@ -5,6 +5,7 @@ export interface TransactionInterface extends Request{
     status: string
     totalAmount: number
     payAmount: number
+    paymentStatus: string
     user_id: string
     transaction_items: [
         {

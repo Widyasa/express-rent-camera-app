@@ -114,6 +114,7 @@ export const createTransaction = async (response:any, req:any) => {
                 end_date: req.end_date,
                 customer_id: req.customer_id,
                 status: 'pending',
+                payment_status: req.payment_status,
                 totalAmount: req.totalAmount,
                 payAmount: req.payAmount,
                 user_id: req.userData.data.id
