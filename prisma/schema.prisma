@@ -86,9 +86,9 @@ model Product {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
-  category         ProductCategory   @relation(fields: [category_id], references: [id])
-  brand            ProductBrand      @relation(fields: [brand_id], references: [id])
-  TransactionItems TransactionItem[]
+  category ProductCategory @relation(fields: [category_id], references: [id])
+  brand    ProductBrand    @relation(fields: [brand_id], references: [id])
+  // TransactionItems TransactionItem[]
 
   @@map("products")
 }
@@ -128,20 +128,21 @@ enum PaymentStatus {
 }
 
 model Transaction {
-  id             String            @id @default(cuid())
-  start_date     String
-  end_date       String
-  customer_id    String
-  status         TransactionStatus @default(pending)
-  payment_status PaymentStatus     @default(half)
-  payment_proof  String?
-  totalAmount    Float
-  payAmount      Float
-  user_id        String
-  createdAt      DateTime          @default(now())
-  updatedAt      DateTime          @updatedAt
+  id                String            @id @default(cuid())
+  start_date        String
+  end_date          String
+  customer_id       String
+  status            TransactionStatus @default(pending)
+  payment_status    PaymentStatus     @default(half)
+  payment_proof     String?
+  totalAmount       Float
+  payAmount         Float
+  user_id           String
+  transaction_items Json
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
 
-  items TransactionItem[]
+  // items TransactionItem[]
 
   customer Customers @relation(fields: [customer_id], references: [id])
   user     Users     @relation(fields: [user_id], references: [id])
@@ -149,17 +150,17 @@ model Transaction {
   @@map("transactions")
 }
 
-model TransactionItem {
-  id             String   @id @default(cuid())
-  transaction_id String
-  product_id     String
-  quantity       Int
-  price          Float
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
-
-  transaction Transaction @relation(fields: [transaction_id], references: [id])
-  product     Product     @relation(fields: [product_id], references: [id])
-
-  @@map("transaction_items")
-}
+// model TransactionItem {
+//   id             String   @id @default(cuid())
+//   transaction_id String
+//   product_id     String
+//   quantity       Int
+//   price          Float
+//   createdAt      DateTime @default(now())
+//   updatedAt      DateTime @updatedAt
+//
+//   transaction Transaction @relation(fields: [transaction_id], references: [id])
+//   product     Product     @relation(fields: [product_id], references: [id])
+//
+//   @@map("transaction_items")
+// }
